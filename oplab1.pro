@@ -7,5 +7,6 @@ SOURCES += \
         main.cpp
 
 DISTFILES += \
+    dat1.dat \
     dat2.dat \
     dat3.dat

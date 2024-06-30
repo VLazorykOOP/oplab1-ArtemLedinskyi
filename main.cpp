@@ -5,6 +5,12 @@
 #include <cstdarg>
 #include <filesystem>
 using namespace std;
+
+
+string file1 = "dat1.dat";
+string file2 = "dat2.dat";
+string file3 = "dat3.dat";
+
 namespace customException
 {
 class KToZero {};
@@ -13,13 +19,6 @@ class ToAlg3 {};
 }
 using namespace customException;
 
-
-
-
-
-string file1 = "dat1.dat";
-string file2 = "dat2.dat";
-string file3 = "dat3.dat";
 
 namespace alg2 {
 double T(double x)

@@ -53,7 +53,8 @@ OBJECTS_DIR   = release
 SOURCES       = ..\..\main.cpp 
 OBJECTS       = release/main.o
 
-DIST          = dat2.dat \
+DIST          = dat1.dat \
+		dat2.dat \
 		dat3.dat  ..\..\main.cpp
 QMAKE_TARGET  = oplab1
 DESTDIR        = release\ #avoid trailing-slash linebreak
