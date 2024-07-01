@@ -11,11 +11,51 @@ string file1 = "dat1.dat";
 string file2 = "dat2.dat";
 string file3 = "dat3.dat";
 
-namespace customException
-{
-class KToZero {};
-class ToAlg2 {};
-class ToAlg3 {};
+namespace customException {
+
+class KToZero : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "KToZero exception: K is zero";
+    }
+};
+
+class ToAlg2 : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "ToAlg2 exception: switched to Alg 2";
+    }
+};
+
+class ToAlg3 : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "ToAlg3 exception: switched to Alg 3";
+    }
+};
+
+class NoFile: public std::exception{
+private:
+     //string FileName;
+    string message;
+public:
+    // NoFile(const string& File){
+    //     FileName += File;
+    // }
+    // const char*what()const noexcept override{
+    //     return ("Failed to open File : "+FileName).c_str();
+    // }
+
+    // const string& getFileName()const{
+    //     return FileName;
+    // }
+    NoFile(const string & File){
+    message="Failed to open File: "+File;
+}
+    const char* what() const noexcept override{
+    return message.c_str();
+}
+};
 }
 using namespace customException;
 
@@ -86,8 +126,7 @@ double GText(string text)
 {
     fstream fs(file3);
     if (!fs){
-
-        return cout << "unable to open file dat3.dat" << endl, 0;
+        throw customException::NoFile(file3);
     }
     string s;
     double value;
@@ -167,9 +206,9 @@ double Rnk(double x, double y)
     {
         return x * Qnk(x, y) + y * Qnk(y, x);
     }
-    catch (ToAlg2)
+    catch (const ToAlg2& e)
     {
-        cout << "switched to Alg 2" << endl;
+         cout <<e.what() << endl;
         return alg2::Rnk(x, y);
     }
 }
@@ -212,9 +251,9 @@ int main()
 
     double x, y, z;
     string text="aet";
-    x=1;
-    y=1;
-    z=1;
+    x=11;
+    y=1.5;
+    z=1.2;
     cout<<"Text: "<<text<<"\nx: "<<x<<"\ny: "<<y<<"\nz: "<<z<<endl;
     double r = 0;
     double k = 0;
@@ -222,8 +261,9 @@ int main()
     try {
         r = alg1::Rnk(x, y) + alg1::Rnk(y, z) * alg1::Rnk(x, y);
     }
-    catch (ToAlg3) {
-        cout << "switched to Alg 3" << endl;
+    catch (const ToAlg3& e) {
+        cout << "Caught ToAlg3 exception: " << e.what() << endl;
+        cout << "Switched to Alg 3" << endl;
         r = alg3::func(x, y, z);
     }
 
@@ -232,8 +272,8 @@ int main()
     try {
         k = alg1::Rrr(f, r, k);
     }
-    catch (KToZero) {
-        cout << "K is 0" << endl;
+    catch (const KToZero& e) {
+        cout<<e.what()<<endl;
         k = 0;
     }
 
